@@ -1,0 +1,45 @@
+sources:
+  e01_tmax_year100km:
+    description: Maximum Temperature for ens-01 in yearly 100km chunks
+    driver: zarr
+    args:
+      urlpath: 's3://ens01-year100kmchunk/tmax_01_year100km.zarr'
+      consolidated: False
+      storage_options:
+        anon: True
+        use_ssl: True
+        client_kwargs:
+          endpoint_url: 'https://chess-scape-o.s3-ext.jc.rl.ac.uk'
+  e04_tmax_year100km:
+    description: Maximum Temperature for ens-04 in yearly 100km chunks
+    driver: zarr
+    args:
+      urlpath: 's3://ens04-year100kmchunk/tmax_04_year100km.zarr'
+      consolidated: False
+      storage_options:
+        anon: True
+        use_ssl: True
+        client_kwargs:
+          endpoint_url: 'https://chess-scape-o.s3-ext.jc.rl.ac.uk'
+  e06_tmax_year100km:
+    description: Maximum Temperature for ens-06 in yearly 100km chunks
+    driver: zarr
+    args:
+      urlpath: 's3://ens06-year100kmchunk/tmax_06_year100km.zarr'
+      consolidated: False
+      storage_options:
+        anon: True
+        use_ssl: True
+        client_kwargs:
+          endpoint_url: 'https://chess-scape-o.s3-ext.jc.rl.ac.uk'
+  e15_tmax_year100km:
+    description: Maximum Temperature for ens-15 in yearly 100km chunks
+    driver: zarr
+    args:
+      urlpath: 's3://ens15-year100kmchunk/tmax_15_year100km.zarr'
+      consolidated: False
+      storage_options:
+        anon: True
+        use_ssl: True
+        client_kwargs:
+          endpoint_url: 'https://chess-scape-o.s3-ext.jc.rl.ac.uk'
