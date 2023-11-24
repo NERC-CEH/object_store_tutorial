@@ -12,7 +12,7 @@ This GitHub repository offers sample notebooks and guides for utilizing the JASM
 Object storage is a cloud-native technology specifically designed for efficiently managing large unstructured datasets. While object store offers significant cost-effectiveness compared to disk storage, it requires data to be appropriately adapted to fully realise its benefits. Data retrieval from object store is over HTTP in complete "objects", which are either entire files or file chunks.
 
 CEDA JASMIN is now providing two different storage systems: (i) the traditional (mounted) file storage and (ii) the latest (cloud) object storage; with different structures.
-![image](img/objstore_rm1.png)
+![comparison of disk and object storage](img/objstore_rm1.png)
 
 As this is relatively new technology, there is a clear lack of established tools and best-practice for converting file types for optimal use with object storage, particularly for large gridded and N-dimensional datasets used in environmental and climate sciences. The performance and speed of object storage are contingent upon the data's structure, chunking, and the specific analysis requirements of the user. Consequently, a better understanding of these interactions is essential before widespread adoption.
 
@@ -42,14 +42,14 @@ For evaluating the optimal chunking strategy, we have focused on chunking the da
 | NetCDF | hydro_jules GWS  | Full region monthly | 83MB | 1200 | 656 $\times$ 1057 $\times$ 30 $\times$ 4 | NetCDF-Monthly
 
 We use the zarr file format as it is better optimised for object storage as instead of storing a dataset across multiple NetCDF files. In this format, we store the entire dataset in explicit chunks within a single .zarr file (a bit like a .zip or .tar archive file). Data on object storage is accessed by downloading 'objects' which correspond to files or chunks of files. NetCDF files can be chunked too, but accessing zarr data on the object store is more efficient than equivalent NetCDF data because: (i) the metadata is stored in one place instead of in every individual file, (ii) the chunking has to be specified explcitly when creating zarr data but not with NetCDF, leading to suboptimal chunk (object) sizes if the data is even chunked at all, and (iii) data duplication from file overheads is reduced as there is only one zarr 'file' instead of many NetCDF files. This is why conversion to zarr is good idea when putting data on object storage.
-![image](img/objstore_rm2.png)
+![chunking strategies](img/objstore_rm2.png)
 
 ## Best chunk size
 In environmental and climate sciences, three primary use cases exist for the analysis of 3-D gridded data. The following figure illustrates examples of these three use cases, each represented by distinctive colored symbols: (i) extracting time series data for a single grid point; (ii) retrieving variables across the entire spatial grid; (iii) obtaining area-averaged time series data for a specific region within the whole domain.
-![image](img/objstore_rm3.png)
+![experiments](img/objstore_rm3.png)
 
 We evaluate the six differently chunked zarr files, along with original NetCDF files across the three use cases. We showcase the wall time required with each chunk type to complete calculations for the three use cases through a spiderweb plot shown below, using the colored symbols corresponding three use cases from the figure above.
-![image](img/objstore_rm4.png)
+![results](img/objstore_rm4.png)
 
 The choice of the most effective chunk size depends on your specific object store architechture, use case applications, and available network capacity. In our study, we found that the best-performing chunk size is the yearly chunk with a horizontal domain of 100km $\times$ 100km (100km-yr; 14MB). In our study we found that chunks larger than 100MB do not offer optimal performance conditions. However, in a [different experiment](https://github.com/cedadev/cmip6-object-store) chunk sizes around 250MB (100MB to 1GB) have found to have optimal performance for JASMIN object store. For each of our use cases, the NetCDF format consistently exhibits inferior performance compared to its zarr counterpart. This conclusion is also valid when considering the use of [kerchunk](https://fsspec.github.io/kerchunk/) to optimise chunking of NetCDF files (not shown). The use case experiments for different chunks provide similar conclusions when conducted from the JASMIN or DataLabs platforms (not shown). Overall performance times are generally lower in JASMIN than in DataLabs, and the largest chunked files (Yearly; 998MB) sometimes fail to load in DataLabs but always load in JASMIN, most likely due to differences in network connections.
 
@@ -219,14 +219,14 @@ The resulting dataset is formatted as a zarr datastore in the chunks we specifie
 import xarray as xr
 xr.open_dataset('/work/scratch-pw2/mattjbr/testoutput.zarr')
 ```
-![image](img/xarray_zarr_output1.png)
+![notebook output 1](img/xarray_zarr_output1.png)
 
 ```
 import zarr
 tzar = zarr.open('/work/scratch-pw2/mattjbr/testoutput.zarr/dmflow')
 tzar.info
 ```
-![image](img/zarr_output2.png)
+![notebook output 2](img/zarr_output2.png)
 
 Pangeo forge has greater capabilities than what we have shown here: it can read/write directly to/from object storage, concatenate over multiple dimensions and be customized to perform any pre- or post-processing tasks. More information and examples is available on the [pangeo-forge website](https://pangeo-forge.readthedocs.io/en/latest/index.html).
 
