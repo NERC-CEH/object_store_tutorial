@@ -1,5 +1,5 @@
 # README for the GitHub repository
-This GitHub repository offers sample notebooks and guides for utilizing the JASMIN Object Store. This README introduces Object Store and provides instructions for using the resources within this respository for accessing the JASMIN Object Store, uploading data to it, and using that data from external platforms.
+This GitHub repository offers sample notebooks and guides for utilizing Object Storage. This README introduces Object Storage and provides instructions for using the resources within this respository for accessing Object Storage, uploading data to it, and using that data from external platforms.
 
 **Authors:** *Matt Brown* and *Amulya Chevuturi*, UK Centre for Ecology & Hydrology, Wallingford, UK (matbro@ceh.ac.uk; amuche@ceh.ac.uk)
 
