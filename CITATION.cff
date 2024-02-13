@@ -1,0 +1,52 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: object_store_tutorial
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Matt James
+    family-names: Brown
+    email: matbro@ceh.ac.uk
+    affiliation: UKCEH
+    orcid: 'https://orcid.org/0000-0003-1127-0279'
+  - given-names: Amulya
+    family-names: Chevuturi
+    email: amuche@ceh.ac.uk
+    affiliation: UKCEH
+    orcid: 'https://orcid.org/0000-0003-2815-7221'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.10625691
+    description: Latest version
+repository-code: 'https://github.com/NERC-CEH/object_store_tutorial'
+abstract: >-
+  This GitHub repository offers sample notebooks and guides
+  for utilizing Object Storage. The README introduces Object
+  Storage and provides instructions for using the resources
+  within this respository which will help you to access
+  Object Storage, upload data to it, and use that data from
+  external platforms.
+keywords:
+  - object storage
+  - JASMIN
+  - beam
+  - pangeo
+  - pangeo-forge
+  - pange-forge-recipes
+  - apache beam
+  - cloud compute
+  - cloud
+  - tutorial
+  - chunks
+  - chunking
+  - netcdf
+  - zarr
+  - arco
+  - big data
+  - gridded
+  - gridded data
+license: GPL-3.0
