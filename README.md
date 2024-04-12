@@ -275,7 +275,7 @@ There are different python packages that can access Object Store data; [boto3](h
 
 ## Example notebooks
 In this repository, we have examples of two datasets uploaded to JASMIN Object Store:
-- CHESS-SCAPE data: The variable we are extracting from this dataset is the daily maximum air temperature. We create an example [notebook access-analyse_temperature.ipynb](https://github.com/achevuturi/object_storage/blob/main/notebooks/access-analyse_temperature.ipynb), in which we extract the model daily maximum air temperature and compare it against COSMOS site observations. There is also a corresponding [catalogue_temperature.yaml file](https://github.com/achevuturi/object_storage/blob/main/notebooks/catalogue_temperature.yaml) which contains the data catalogue (paths, names etc.)
+- CHESS-SCAPE data: The variable we are extracting from this dataset is the daily maximum air temperature. We create an example [notebook access-analyse_temperature.ipynb](https://github.com/NERC-CEH/object_store_tutorial/blob/main/notebooks/access-analyse_temperature.ipynb), in which we extract the model daily maximum air temperature and compare it against COSMOS site observations. There is also a corresponding [catalogue_temperature.yaml file](https://github.com/NERC-CEH/object_store_tutorial/blob/main/notebooks/catalogue_temperature.yaml) which contains the data catalogue (paths, names etc.)
 - G2G data: The variable we are extracting from this dataset is daily streamflow. This dataset is not yet public, thus, we have not made the example notebooks available yet. Please watch this space for future updates on this. 
 
 ## Running on different platforms
