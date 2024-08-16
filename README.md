@@ -71,7 +71,7 @@ Pangeo forge has several python packages, the key one being pangeo-forge-recipes
 - s3fs >= 2023.9.2
 For example:
 ```
-conda create --name object_storage -c conda-forge pangeo-forge-recipes python\<3.10 pandas\<2.0 aiobotocore\>\=2.5.4 s3fs \>\=2023.9.2
+conda create --name object_storage -c conda-forge pangeo-forge-recipes python\<3.10 pandas\<2.0 aiobotocore\>\=2.5.4 s3fs\>\=2023.9.2
 ```
 The aiobotocore and s3fs packages are only used when reading/writing directly from/to object storage - not in the following example.
 
