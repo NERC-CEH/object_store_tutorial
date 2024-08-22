@@ -24,15 +24,15 @@ pre = "CEH-GEAR-1hr-v2_"
 suf = ".nc"
 td = "/work/scratch-pw2/mattjbr"
 tn = "gear_1hrly_fulloutput_yearly_100km_chunks.zarr"
-target_chunks = {"time": 365.25*24, "y": 100, "x": 100}
+target_chunks = {"time": int(365.25*24), "y": 100, "x": 100}
 #nprocs = 64
 prune = 12 # no. of files to process, set to 0 to use all
 
 if not os.path.exists(td):
     os.makedirs(td)
 
-def make_path(yearmonth):
-    filename = pre + yearmonth + suf
+def make_path(time):
+    filename = pre + time + suf
     return os.path.join(indir, filename)
 
 years = list(range(startyear, endyear + 1))
