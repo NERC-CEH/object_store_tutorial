@@ -24,7 +24,7 @@ pre = "CEH-GEAR-1hr-v2_"
 suf = ".nc"
 td = "/work/scratch-pw2/mattjbr"
 tn = "gear_1hrly_fulloutput_yearly_100km_chunks.zarr"
-target_chunks = {"time": int(365.25*24), "y": 100, "x": 100}
+target_chunks = {"time": int(365.25*24), "y": 100, "x": 100, "bnds": 2}
 #nprocs = 64
 prune = 12 # no. of files to process, set to 0 to use all
 
@@ -46,7 +46,7 @@ if prune > 0:
 
 recipe = (
     beam.Create(pattern.items())
-    | OpenWithXarray(file_type=pattern.file_type)
+    | OpenWithXarray(file_type=pattern.file_type, xarray_open_kwargs={'preprocess':lambda ds: ds.set_coords(['x_bnds', 'y_bnds', 'time_bnds', 'crs'])})
     | StoreToZarr(
         target_root=td,
         store_name=tn,
