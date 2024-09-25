@@ -28,7 +28,7 @@ suf = ".nc"
 td = "/work/scratch-pw2/mattjbr"
 tn = "gear_1hrly_fulloutput_yearly_100km_chunks.zarr"
 target_chunks = {"time": int(365.25*24), "y": 100, "x": 100, "bnds": 2}
-nprocs = 8
+nprocs = 4
 prune = 12 # no. of files to process, set to 0 to use all
 
 if not os.path.exists(td):
@@ -86,7 +86,7 @@ class DataVarToCoordVar(beam.PTransform):
 recipe = (
     beam.Create(pattern.items())
     | OpenWithXarray(file_type=pattern.file_type)
-    | DataVarToCoordVar() # the preprocess
+    | DataVarToCoordVar()
     | StoreToZarr(
         target_root=td,
         store_name=tn,
