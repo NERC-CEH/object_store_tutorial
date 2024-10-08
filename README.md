@@ -8,12 +8,12 @@ The first product that we are developing is to allow for easy conversion of vari
 
 # Developer information
 
-Product description document
+[Product description document](https://cehacuk.sharepoint.com/:w:/s/FDRI-WP2Digital/EbX7pJCS6alKrckL_jU-Dd8B41KHJYWzEYN27qGHkWXL7w?e=8gnEbc)
 
 ## Local installation
 
 - Download local copy of repository: `git clone git@github.com:NERC-CEH/dri_gridded_data.git`
-- Create a conda environment from the environment.yml file: `conda create -n dri_gridded_data --f environment.yml`
+- Create a conda environment from the environment.yml file: `conda create --name dri_gridded_data --file environment.yml`
 
 ## Running instructions
 
