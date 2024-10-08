@@ -1,6 +1,7 @@
 # DRI Gridded Data
 
-DRI Gridded Data Repository.
+DRI Gridded Data Repository. Work in progress. The idea with this repo is to develop a suite of tools to make working with large gridded datasets easier. This is outlined in the diagram below. 
+The first product that we are developing is to allow for easy conversion of various gridded datasets to ARCO (Zarr) format and easy upload to object storage. This product is built upon pangeo-forge-recipes which provides convenience functions for Apache Beam, which handles all the complexity of the performant parallelisation needed for rapid execution of the conversion. For more information on the reasons and motivation for converting data to ARCO format see the README of the repository that generated the idea for this product. 
 
 # Disclaimer
 
