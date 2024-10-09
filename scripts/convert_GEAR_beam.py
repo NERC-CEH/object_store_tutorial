@@ -8,6 +8,7 @@
 
 import os
 import pdb
+import logging
 import apache_beam as beam
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from apache_beam.options.pipeline_options import PipelineOptions
@@ -20,6 +21,8 @@ from pangeo_forge_recipes.transforms import (
     T,    
 )
 
+logging.basicConfig(level=logging.INFO)
+
 startyear = 1990
 endyear = 2016 # inclusive
 indir = "/home/users/mattjbr/fdri/data/gear-hrly"
@@ -30,6 +33,12 @@ tn = "gear_1hrly_fulloutput_yearly_100km_chunks.zarr"
 target_chunks = {"time": int(365.25*24), "y": 100, "x": 100, "bnds": 2}
 nprocs = 4
 prune = 12 # no. of files to process, set to 0 to use all
+
+logging.info('Converting data in ' + indir + ' from ' + str(startyear) + ' to ' + str(endyear))
+logging.info('Outputting to ' + tn + ' in ' + td)
+logging.info('Rechunking to ' + str(target_chunks) + ' using ' + str(nprocs) + ' process(es)')
+if prune > 0:
+    logging.info('Only using first ' + str(prune) + ' files')
 
 if not os.path.exists(td):
     os.makedirs(td)
@@ -71,9 +80,9 @@ class DataVarToCoordVar(beam.PTransform):
         # Here we convert some of the variables in the file
         # to coordinate variables so that pangeo-forge-recipes
         # can process them
-        print(f'Preprocessing before {ds =}')
+        logging.info(f'Dataset chunk before preprocessing: {ds =}')
         ds = ds.set_coords(['x_bnds', 'y_bnds', 'time_bnds', 'crs'])
-        print(f'Preprocessing after {ds =}')
+        logging.info(f'Dataset chunk after preprocessing: {ds =}')
         return index, ds
 
     # this expand function is a necessary part of
@@ -97,6 +106,7 @@ recipe = (
     | ConsolidateMetadata()
 )
 
+logging.info('Executing pipeline...')
 if nprocs > 1:
     beam_options = PipelineOptions(
         direct_num_workers=nprocs, direct_running_mode="multi_processing"
