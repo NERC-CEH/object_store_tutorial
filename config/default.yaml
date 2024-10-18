@@ -1,0 +1,17 @@
+start_year: 1990
+end_year: 2016
+start_month: 1
+end_month: 13
+input_dir: "/where/the/files/are"
+prefix: "CEH-GEAR-1hr-v2_"
+suffix: ".nc"
+target_root: "/where/to/put/the/output"
+store_name: "gear_1hrly_fulloutput_yearly_100km_chunks.zarr"
+target_chunks: 
+  time: 8766
+  y: 100 
+  x: 100 
+  bnds: 2
+num_workers: 4
+prune: 12 # no. of files to process, set to 0 to use all
+
