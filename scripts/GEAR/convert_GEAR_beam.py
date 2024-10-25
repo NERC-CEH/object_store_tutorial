@@ -7,45 +7,44 @@
 # and be adapted for your own datasets.
 
 import os
-import pdb
+import sys
 import apache_beam as beam
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from apache_beam.options.pipeline_options import PipelineOptions
 from pangeo_forge_recipes.transforms import (
-    OpenWithXarray,
-    StoreToZarr,
-    ConsolidateDimensionCoordinates,
-    ConsolidateMetadata,
-    Indexed,
-    T,    
-)
+        OpenWithXarray,
+        StoreToZarr,
+        ConsolidateDimensionCoordinates,
+        ConsolidateMetadata,
+        T,    
+        )
+from pangeo_forge_recipes.types import Indexed
 
-startyear = 1990
-endyear = 2016 # inclusive
-indir = "/home/users/mattjbr/fdri/data/gear-hrly"
-pre = "CEH-GEAR-1hr-v2_"
-suf = ".nc"
-td = "/work/scratch-pw2/mattjbr"
-tn = "gear_1hrly_fulloutput_yearly_100km_chunks.zarr"
-target_chunks = {"time": int(365.25*24), "y": 100, "x": 100, "bnds": 2}
-nprocs = 4
-prune = 12 # no. of files to process, set to 0 to use all
+from GEAR_config import load_yaml_config
 
-if not os.path.exists(td):
-    os.makedirs(td)
+if len(sys.argv) != 2:
+   print("Usage: python scripts/convert_GEAR_beam.py <path_to_yaml_file>")
+   sys.exit(1)
+
+file_path = sys.argv[1]
+config = load_yaml_config(file_path)
+
+if not os.path.exists(config.target_root):
+    os.makedirs(config.target_root)
 
 def make_path(time):
-    filename = pre + time + suf
-    return os.path.join(indir, filename)
+    filename = config.prefix + time + config.suffix
+    print(f"FILENAME: {filename}")
+    return os.path.join(config.input_dir, filename)
 
-years = list(range(startyear, endyear + 1))
-months = list(range(1, 13))
+years = list(range(config.start_year, config.end_year + 1))
+months = list(range(config.start_month, config.end_month + 1))
 ymonths = [f"{year}{month:02d}" for year in years for month in months]
 time_concat_dim = ConcatDim("time", ymonths)
 
 pattern = FilePattern(make_path, time_concat_dim)
-if prune > 0:
-    pattern = pattern.prune(nkeep=prune)
+if config.prune > 0:
+    pattern = pattern.prune(nkeep=config.prune)
 
 # Add in our own custom Beam PTransform (Parallel Transform) to apply
 # some preprocessing to the dataset. In this case to convert the
@@ -84,23 +83,23 @@ class DataVarToCoordVar(beam.PTransform):
         return pcoll | beam.Map(self._datavar_to_coordvar)
 
 recipe = (
-    beam.Create(pattern.items())
-    | OpenWithXarray(file_type=pattern.file_type)
-    | DataVarToCoordVar()
-    | StoreToZarr(
-        target_root=td,
-        store_name=tn,
-        combine_dims=pattern.combine_dim_keys,
-        target_chunks=target_chunks,
-    )
-    | ConsolidateDimensionCoordinates()
-    | ConsolidateMetadata()
-)
+        beam.Create(pattern.items())
+        | OpenWithXarray(file_type=pattern.file_type)
+        | DataVarToCoordVar()
+        | StoreToZarr(
+            target_root=config.target_root,
+            store_name=config.store_name,
+            combine_dims=pattern.combine_dim_keys,
+            target_chunks=dict(config.target_chunks),
+            )
+        | ConsolidateDimensionCoordinates()
+        | ConsolidateMetadata()
+        )
 
-if nprocs > 1:
+if config.num_workers > 1:
     beam_options = PipelineOptions(
-        direct_num_workers=nprocs, direct_running_mode="multi_processing"
-    )
+            direct_num_workers=config.num_workers, direct_running_mode="multi_processing"
+            )
     with beam.Pipeline(options=beam_options) as p:
         p | recipe
 else:
