@@ -1,7 +1,7 @@
 start_year: 1990
-end_year: 2016
+end_year: 2016 # inclusive
 start_month: 1
-end_month: 13
+end_month: 12 # inclusive
 input_dir: "/where/the/files/are"
 prefix: "CEH-GEAR-1hr-v2_"
 suffix: ".nc"
