@@ -38,7 +38,7 @@ def make_path(time):
     return os.path.join(config.input_dir, filename)
 
 years = list(range(config.start_year, config.end_year + 1))
-months = list(range(config.start_month, config.end_month))
+months = list(range(config.start_month, config.end_month + 1))
 ymonths = [f"{year}{month:02d}" for year in years for month in months]
 time_concat_dim = ConcatDim("time", ymonths)
 
