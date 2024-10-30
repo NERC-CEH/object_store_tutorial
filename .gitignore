@@ -3,3 +3,6 @@
 .ipynb_checkpoints/
 data/
 *~
+__pycache__
+config/*
+!config/default.yaml
