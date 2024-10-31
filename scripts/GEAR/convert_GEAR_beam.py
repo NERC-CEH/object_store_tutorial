@@ -20,7 +20,10 @@ from pangeo_forge_recipes.transforms import (
         T,    
         )
 from pangeo_forge_recipes.types import Indexed
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 from GEAR_config import load_yaml_config
 
