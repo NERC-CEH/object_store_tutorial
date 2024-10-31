@@ -7,6 +7,7 @@
 # and be adapted for your own datasets.
 
 import os
+import logging
 import sys
 import apache_beam as beam
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
@@ -19,6 +20,10 @@ from pangeo_forge_recipes.transforms import (
         T,    
         )
 from pangeo_forge_recipes.types import Indexed
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 from GEAR_config import load_yaml_config
 
@@ -28,6 +33,12 @@ if len(sys.argv) != 2:
 
 file_path = sys.argv[1]
 config = load_yaml_config(file_path)
+
+logging.info('Converting data in ' + config.input_dir + ' from ' + str(config.start_year) + ' to ' + str(config.end_year))
+logging.info('Outputting to ' + config.store_name + ' in ' + config.target_root)
+logging.info('Rechunking to ' + str(config.target_chunks) + ' using ' + str(config.num_workers) + ' process(es)')
+if config.prune > 0:
+    logging.info('Only using first ' + str(config.prune) + ' files')
 
 if not os.path.exists(config.target_root):
     os.makedirs(config.target_root)
@@ -70,9 +81,9 @@ class DataVarToCoordVar(beam.PTransform):
         # Here we convert some of the variables in the file
         # to coordinate variables so that pangeo-forge-recipes
         # can process them
-        print(f'Preprocessing before {ds =}')
+        logging.info(f'Dataset chunk before preprocessing: {ds =}')
         ds = ds.set_coords(['x_bnds', 'y_bnds', 'time_bnds', 'crs'])
-        print(f'Preprocessing after {ds =}')
+        logging.info(f'Dataset chunk after preprocessing: {ds =}')
         return index, ds
 
     # this expand function is a necessary part of
@@ -96,6 +107,7 @@ recipe = (
         | ConsolidateMetadata()
         )
 
+logging.info('Executing pipeline...')
 if config.num_workers > 1:
     beam_options = PipelineOptions(
             direct_num_workers=config.num_workers, direct_running_mode="multi_processing"
