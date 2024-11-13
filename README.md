@@ -17,8 +17,8 @@ The first product that we are developing is to allow for easy conversion of vari
 
 ## Running instructions
 
-- To run the netcdf --> zarr conversion script on your local machine: `ipython scripts/convert_GEAR_beam.py`
-- To run it on a SLURM-controlled HPC (such as JASMIN LOTUS): `sbatch scripts/convert_GEAR_beam.sbatch`
+- To run the netcdf --> zarr conversion script on your local machine: `ipython scripts/GEAR/convert_GEAR_beam.py config/<your_config>.yaml`
+- To run it on a SLURM-controlled HPC (such as JASMIN LOTUS): `sbatch scripts/GEAR/convert_GEAR_beam.sbatch`
 
 (editing the variables defined in the scripts as appropriate)
 
