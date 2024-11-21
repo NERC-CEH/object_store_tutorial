@@ -82,9 +82,7 @@ class DataVarToCoordVar(beam.PTransform):
         # Here we convert some of the variables in the file
         # to coordinate variables so that pangeo-forge-recipes
         # can process them
-        logging.info(f'Dataset chunk before preprocessing: {ds =}')
         ds = ds.set_coords(['x_bnds', 'y_bnds', 'time_bnds', 'crs'])
-        logging.info(f'Dataset chunk after preprocessing: {ds =}')
         return index, ds
 
     # this expand function is a necessary part of
@@ -98,14 +96,15 @@ recipe = (
         beam.Create(pattern.items())
         | OpenWithXarray(file_type=pattern.file_type)
         | DataVarToCoordVar()
-        | StoreToZarr(
-            target_root=config.target_root,
-            store_name=config.store_name,
-            combine_dims=pattern.combine_dim_keys,
-            target_chunks=dict(config.target_chunks),
-            )
-        | ConsolidateDimensionCoordinates()
-        | ConsolidateMetadata()
+        | beam.Map(print)   
+#        | StoreToZarr(
+#            target_root=config.target_root,
+#            store_name=config.store_name,
+#            combine_dims=pattern.combine_dim_keys,
+#            target_chunks=dict(config.target_chunks),
+#            )
+#        | ConsolidateDimensionCoordinates()
+#        | ConsolidateMetadata()
         )
 
 logging.info('Executing pipeline...')
