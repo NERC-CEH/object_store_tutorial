@@ -14,4 +14,4 @@ export PATH=/home/users/mattjbr/miniconda3/bin:$PATH
 source /home/users/mattjbr/miniconda3/bin/activate gear
 
 # run script, ensuring correct env is picked up
-/home/users/mattjbr/miniconda3/envs/gear/bin/ipython /gws/nopw/j04/fdri/users/matbro/dri_gridded_data/scripts/convert_GEAR_beam.py
+/home/users/mattjbr/miniconda3/envs/gear/bin/ipython /gws/nopw/j04/fdri/users/matbro/dri_gridded_data/scripts/GEAR/convert_GEAR_beam_debug.py /gws/nopw/j04/fdri/users/matbro/dri_gridded_data/config/matbro.yaml

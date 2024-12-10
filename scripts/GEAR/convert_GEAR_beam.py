@@ -59,7 +59,8 @@ if config.prune > 0:
 
 # Add in our own custom Beam PTransform (Parallel Transform) to apply
 # some preprocessing to the dataset. In this case to convert the
-# 'bounds' variables to coordinate rather than data variables.
+# 'bounds' variables to coordinate rather than data variables, so
+# that pangeo-forge-recipes leaves them alone
 
 # They are implemented as subclasses of the beam.PTransform class
 class DataVarToCoordVar(beam.PTransform):
@@ -110,10 +111,13 @@ recipe = (
 logging.info('Executing pipeline...')
 if config.num_workers > 1:
     beam_options = PipelineOptions(
-            direct_num_workers=config.num_workers, direct_running_mode="multi_processing"
-            )
+            direct_num_workers=config.num_workers, direct_running_mode="multi_processing", auto_unique_labels=True,
+    )
     with beam.Pipeline(options=beam_options) as p:
-        p | recipe
+       p | recipe
 else:
-    with beam.Pipeline() as p:
-        p | recipe
+   beam_options = PipelineOptions(
+      auto_unique_labels=True,
+   )
+   with beam.Pipeline(options=beam_options) as p:
+      p | recipe
