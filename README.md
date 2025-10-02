@@ -271,7 +271,7 @@ Further work will look at deploying apache beam on one of the support compute ar
 ## Accessing Object Store
 As mentioned before, the object store data's access can be controlled by the owners. To change access controls for JASMIN object storage, use the caringo portal from CEDA JASMIN webpage. More details about the caringo portal is provided [here](https://help.jasmin.ac.uk/article/4847-using-the-jasmin-object-store). If the bucket is not public, you would need the access credentials (key and secret), which is specific for each individual and should not be shared. If the bucket is public, anyone with the endpoint_url and url_path can access the data from any platform, even beyond the JASMIN firewalls.
 
-There are different python packages that can access Object Store data; [boto3](https://pypi.org/project/boto3/), [s3fs](https://pypi.org/project/s3fs/) and [intake](https://github.com/intake/intake). In this section, we will show examples of accessing Object Store data using intake and s3fs. Although, s3fs can be used to read the dataset itself, it is also good in exploring the Object Store tenancy (based on the user access), and that is the example we provide. We read the data through intake package, however, when we read data through this package we have to know the data path and names exactly to access the files. With the intake package, we need a catalogue.yaml file, which has the catalogue of data we are attempting to read. This catalogue file would need all the information of the dataset: endpoint_url, url_path, bucket name etc. More details are provided in the sub-section below.
+There are different python packages that can access Object Store data; [boto3](https://pypi.org/project/boto3/), [s3fs](https://pypi.org/project/s3fs/) and [intake](https://github.com/intake/intake). In this section, we will show examples of accessing Object Store data using intake and s3fs. Although, s3fs can be used to read the dataset itself, it is also good in exploring the Object Store tenancy (based on the user access), and that is the example we provide. We can read the data through intake package, however, when we read data through this package we have to know the data path and names exactly to access the files. With the intake package, we need a catalogue.yaml file, which has the catalogue of data we are attempting to read. This catalogue file would need all the information of the dataset: endpoint_url, url_path, bucket name etc. A less convoluted way of accessing datasets stored in object storage can be to just use s3fs/fsspec with the endpoint url and bucket path. [Examples](https://github.com/NERC-CEH/UKCEH_Summer_School/blob/main/Workshop_3/complete/Workshop3-part3-gridded-complete.ipynb) showing this access pattern can be found in a [repository developed for a UKCEH Summer School](https://github.com/NERC-CEH/UKCEH_Summer_School/tree/main).
 
 ## Example notebooks
 In this repository, we have examples of two datasets uploaded to JASMIN Object Store:
@@ -286,6 +286,17 @@ The process of reading and analysing data from Object Store can be sped up by us
 - [DataLabs](https://datalab-docs.datalabs.ceh.ac.uk/tutorials/datalabs-dask-cluster/index.html)
 - [JASMIN Notebook Service](https://github.com/cedadev/jasmin-daskgateway)
 - [Google Colab](https://saturncloud.io/docs/using-saturn-cloud/external-connect/colab_external_connect/)
+
+# Further useful resources
+- File formats: [Zarr](https://zarr.dev/), [IceChunk](https://icechunk.io/en/latest/)
+- Conversion tools: [Rechunker](https://github.com/pangeo-data/rechunker), [Dask](https://www.dask.org/), [ndpyramid](https://github.com/carbonplan/ndpyramid), [Kerchunk](https://fsspec.github.io/kerchunk/), [VirtualiZarr](https://virtualizarr.readthedocs.io/en/stable/index.html)
+- Infrastructure: [KNATIVE](https://knative.dev/docs/), [obstore](https://developmentseed.org/obstore/latest/)
+- Visualisation: [TiTiler](https://github.com/developmentseed/titiler-multidim), [Rio-Tiler](https://cogeotiff.github.io/rio-tiler/), [Carbonplan/maps](https://github.com/carbonplan/maps)
+- Cataloguing: [STAC](https://stacspec.org/en)
+- [Walkthrough for visualisation methods](https://medium.com/@tobias.ramalho.ferreira/zarr-in-the-browser-fast-flexible-and-surprisingly-powerful-for-big-geo-data-eeb90ddf8a3d)
+- [Visualisation example site](https://noc-oi.github.io/zarr-vis/)
+- [Examples of analysing data stored on object storage](https://github.com/NERC-CEH/UKCEH_Summer_School/tree/main/Workshop_3)
+- [Example pangeo-forge-recipes](https://github.com/NERC-CEH/dri_gridded_data)
 
 # Citation
 If you use this tutorial in your work, or it helped you, please cite this repository by using the 'Cite this repository' button on the [main repository page](https://github.com/NERC-CEH/object_store_tutorial/), to the right of the files, or the CITATION.cff file in the root of the repository. 
