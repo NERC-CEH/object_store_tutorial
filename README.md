@@ -1,7 +1,7 @@
 # README for the GitHub repository
 This GitHub repository offers sample notebooks and guides for utilizing Object Storage. This README introduces Object Storage and provides instructions for using the resources within this respository for accessing Object Storage, uploading data to it, and using that data from external platforms.
 
-**Authors:** *Matt Brown* and *Amulya Chevuturi*, UK Centre for Ecology & Hydrology, Wallingford, UK (matbro@ceh.ac.uk; amuche@ceh.ac.uk)
+**Authors:** *Matt Dalle Piagge* and *Amulya Chevuturi*, UK Centre for Ecology & Hydrology, Wallingford, UK (matdp@ceh.ac.uk; amuche@ceh.ac.uk)
 
 **Contact:** For more information please contact Matt Fry (mfry@ceh.ac.uk)
 
