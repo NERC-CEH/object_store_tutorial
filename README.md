@@ -65,13 +65,13 @@ Unfortunately converting data for object storage is not a simple process, even o
 ## Installation
 Pangeo forge has several python packages, the key one being pangeo-forge-recipes. The recommended installation method is to install it into a separate environment with Anaconda. The [Anaconda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) has instructions on how to do this. Pangeo-forge has many dependencies which anaconda will attempt to resolve and install automatically, however at time of writing I found some conflicts still existed with Anaconda's handling of the dependencies, so it is better to manually install the following packages and versions when creating the anaconda environment:
 - pangeo-forge-recipes
-- python < 3.10
-- pandas < 2.0
+- python <= 3.10
+- pyarrow <= 8.0.1
 - aiobotocore >= 2.5.4
 - s3fs >= 2023.9.2
 For example:
 ```
-conda create --name object_storage -c conda-forge pangeo-forge-recipes python\<3.10 pandas\<2.0 aiobotocore\>\=2.5.4 s3fs \>\=2023.9.2
+conda create --name object_storage -c conda-forge pangeo-forge-recipes python\<\=3.10 pyarrow\<\=8.0.1 aiobotocore\>\=2.5.4 s3fs\>\=2023.9.2
 ```
 The aiobotocore and s3fs packages are only used when reading/writing directly from/to object storage - not in the following example.
 
