@@ -63,18 +63,20 @@ Since writing this guide we have gained experience converting, chunking and work
 The dataset used in the example is CEH-GEAR-1hr, a UK 1km hourly gridded rainfall dataset derived from ground-based observations. We have chunked this dataset in three ways:
 - **Spatially**: 10km chunks, with no chunking in the time dimensions
 - **Temporally**: Daily (24-timestep) chunks, with no chunking in the spatial dimensions
-- **Both**: 100km x 15day (360-timestep) chunks
+- **Combined**: 100km x 15day (360-timestep) chunks
 
-And show two simple examples:
-- **Spatial Analysis**: Extracting out a timeseries for a single spatial point, comparing the spatially-chunked data with the 'both' chunked data
-- **Temporal Analysis**: Extracting out the entire spatial domain for a single timestep, comparing the temporally-chunked data with the 'both' chunked data
+And use two simple idealised examples:
+- **Spatial Analysis**: Extracting out a timeseries for a single spatial point, comparing the spatially-chunked data (optimally chunked for this analysis type) with the 'combined' chunked data 
+- **Temporal Analysis**: Extracting out the entire spatial domain for a single timestep, comparing the temporally-chunked data (optimally chunked for this analysis type) with the 'combined' chunked data
 
 Results:
 
-| **Analyis** | **Speed with Spatial Chunking ** | **Speed with Temporal chunking** | **% speedup** |
-| ----------- | -------------------------------  | -------------------------------- | ------------- |
-| Spatial     |                                  |                                  |               |
-| Temporal    |                                  |                                  |               |
+| **Analyis** | **Speed with Optimal Chunking (s)** | **Speed with Unoptimal chunking (s)** | **% speedup** |
+| ----------- | ----------------------------------  | ------------------------------------- | ------------- |
+| Spatial     | 3.1                                 | 61                                    | 1868% (~20x)  |
+| Temporal    | 2.4                                 | 9.5                                   | 300% (4x)     |
+
+The speedup is impressive, particularly for the spatial analysis case, so the conclusion is that it is worth having two copies of your data, chunked on opposite dimensions, especially as object storage tends to be cheaper than traditional disk storage. For cases where storage is a limiting factor, the The speedup is particularly dramatic for the spatial analysis case, because there are 2 spatial dimensions, making the unoptimal-chunking at least twice as bad. When storage is a limiting factor, the 'Combined' chunking still provides a speedup over NetCDF-based access methods, as per our original conclusion above. 
 
 # Heavy Lifting - Converting and Uploading Data to Object Storage
 
