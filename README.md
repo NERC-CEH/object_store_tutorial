@@ -56,6 +56,19 @@ A chunk of identical size (10km; 14MB)  matching our best-performing chunk type 
 
 From the discussion above it is clear that data managers need to have a clear discussion of chunking strategies for a particular dataset based on use cases and network requirements for the said dataset before uploading the data. However, we can provide a few general conclusions that can implemented as good practice guide for datasets on object stores: (i) zarr format provides more optimized performance than NetCDF; (ii) medium-sized chunks perform the best, especially for users with limited network bandwidth; (iii) chunking data over all dimensions (spatially and temporally) is generally the best way to improving overall performance.
 
+## In the Field - An update
+
+Since writing this guide we have gained experience converting, chunking and working with more datasets on more platforms. Whilst our initial conclusion that chunking carefully over all dimensions improves performance relative to NetCDF still holds, we have also seen first-hand the performance benefits that having two copies of the dataset chunked in opposing ways can provide when the appropriate chunking is used for the corresponding analysis type. That's chunking over time for analyses that extract out a large spatial domain at a single or few timesteps, and chunking over space for analyses that extract out time-series for a single or few gridpoints. Whilst this is shown in the [spider diagram above](img/objstore_rm4.png), we wanted to highlight it further with a real-world example.
+
+The dataset used in the example is CEH-GEAR-1hr, a UK 1km hourly gridded rainfall dataset derived from ground-based observations. We have chunked this dataset in three ways:
+- Spatially: 10km chunks, with no chunking in the time dimensions
+- Temporally: Daily (24-timestep) chunks, with no chunking in the spatial dimensions
+- Both: 100km x 15day (360-timestep) chunks
+
+And show two simple examples:
+- Extracting out a timeseries for a single spatial point, comparing the spatially-chunked data with the 'both' chunked data
+- Extracting out the entire spatial domain for a single timestep, comparing the temporally-chunked data with the 'both' chunked data
+
 # Heavy Lifting - Converting and Uploading Data to Object Storage
 
 The example laid out here is also available in this repo as a [jupyter notebook](notebooks/pangeo-forge_testing.\timipynb) and a [script](scripts/convert_G2G_beam.py), as well as an example [job submission script](scripts/convert_G2G_beam.sbatch) for running on a HPC that uses SLURM. These files are intended to serve as examples for adapation to your own datasets. 
