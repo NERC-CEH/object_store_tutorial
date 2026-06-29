@@ -60,13 +60,13 @@ From the discussion above it is clear that data managers need to have a clear di
 
 Since writing this guide we have gained experience converting, chunking and working with more datasets on more platforms. Whilst our initial conclusion that chunking carefully over all dimensions improves performance relative to NetCDF still holds, we have also seen first-hand the performance benefits that having two copies of the dataset chunked in opposing ways can provide when the appropriate chunking is used for the corresponding analysis type. That's chunking over time for analyses that extract out a large spatial domain at a single or few timesteps, and chunking over space for analyses that extract out time-series for a single or few gridpoints. Whilst this is shown in the [spider diagram above](img/objstore_rm4.png), we wanted to highlight it further with two idealised example analyses. The full analysis code is provided [as a notebook](notebooks/gear_zarr_python.ipynb). 
 
-The dataset used in the example is CEH-GEAR-1hr, a UK 1km hourly gridded rainfall dataset derived from ground-based observations. We have chunked this dataset in three ways:
+The dataset used in the example is [CEH-GEAR-1hr](https://doi.org/10.5285/dbf13dd5-90cd-457a-a986-f2f9dd97e93c), a UK 1km hourly gridded rainfall dataset derived from ground-based observations. We have chunked this dataset in three ways:
 - **Spatially**: 10km chunks, with no chunking in the time dimensions
 - **Temporally**: Daily (24-timestep) chunks, with no chunking in the spatial dimensions
 - **Combined** or **Unoptimal**: 100km x 15day (360-timestep) chunks
 
 And use two simple (albeit somewhat idealised) examples:
-- **Spatial Analysis**: Extracting out a timeseries for a single spatial point, comparing the spatially-chunked data (optimally chunked for this analysis type) with the 'combined' chunked data 
+- **Spatial Analysis**: Extracting out the entire timeseries for a single spatial point, comparing the spatially-chunked data (optimally chunked for this analysis type) with the 'combined' chunked data 
 - **Temporal Analysis**: Extracting out the entire spatial domain for a single timestep, comparing the temporally-chunked data (optimally chunked for this analysis type) with the 'combined' chunked data
 
 Results:
@@ -74,9 +74,9 @@ Results:
 | **Analyis** | **Speed with Optimal Chunking (s)** | **Speed with Unoptimal chunking (s)** | **% speedup** |
 | ----------- | ----------------------------------  | ------------------------------------- | ------------- |
 | Spatial     | 3.1                                 | 61                                    | 1868% (~20x)  |
-| Temporal    | 2.4                                 | 9.5                                   | 300% (4x)     |
+| Temporal    | 2.17                                | 295                                   | 13500% (136x) |
 
-The speedup is impressive, particularly for the spatial analysis case, so the conclusion is that it is worth having two copies of your data, chunked on opposite dimensions, especially as object storage tends to be cheaper than traditional disk storage. The speedup is particularly dramatic for the spatial analysis case, because there are 2 spatial dimensions, making the unoptimal-chunking at least twice as bad. When storage is a limiting factor, the 'Combined' chunking still provides a speedup over NetCDF-based access methods, as per our original conclusion above. 
+The speedup is impressive, particularly for the temporal analysis case (due to the spaital chunking being two dimensional so twice as much unnecessary data is downloaded), so the conclusion is that it is worth having two copies of your data, chunked on opposite dimensions, especially as object storage tends to be cheaper than traditional disk storage. However it is worth remembering that when storage is a limiting factor, the 'Combined' chunking still provides a speedup over NetCDF-based access methods, as per our original conclusion above. 
 
 # Heavy Lifting - Converting and Uploading Data to Object Storage
 
