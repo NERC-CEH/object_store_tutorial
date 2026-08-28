@@ -318,7 +318,7 @@ The process of reading and analysing data from Object Store can be sped up by us
 - [Walkthrough for visualisation methods](https://medium.com/@tobias.ramalho.ferreira/zarr-in-the-browser-fast-flexible-and-surprisingly-powerful-for-big-geo-data-eeb90ddf8a3d)
 - [Visualisation example site](https://noc-oi.github.io/zarr-vis/)
 - [Examples of analysing data stored on object storage](https://github.com/NERC-CEH/UKCEH_Summer_School/tree/main/Workshop_3)
-- [Example pangeo-forge-recipes](https://github.com/NERC-CEH/dri_gridded_data)
+- [Example pangeo-forge-recipes and conversion workflows](https://github.com/NERC-CEH/dri_gridded_data)
 
 # Citation
 If you use this tutorial in your work, or it helped you, please cite this repository by using the 'Cite this repository' button on the [main repository page](https://github.com/NERC-CEH/object_store_tutorial/), to the right of the files, or the CITATION.cff file in the root of the repository. 
